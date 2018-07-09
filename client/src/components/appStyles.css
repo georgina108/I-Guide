@@ -1,0 +1,8 @@
+import styled from 'styled-components';
+
+const DesignBar = styled.div`
+  display:flex;
+  background-color: blue;
+`;
+
+// export default DesignBar;
