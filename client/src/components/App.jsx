@@ -5,110 +5,87 @@ import axios from 'axios';
 const Box = styled.div`
   display:flex;
   flex-direction:row;
-  justify-content:space-between;
-`;
-
-const InnerBox = styled.div`
-  display:flex;
-  margin-top:300px;
-  padding-top:20px;
-  width:90%;
-  text-align: center;
-  height:30px;
-  flex-wrap: nowrap;
-  padding-left:40px;
-  justify-content:space-between;
-  position: absolute;
-  top:8%;
-`;
-const Hero = styled.div`
   width: 100%;
-  position:fixed;
-`;
-const Image = styled.img`
-  width: 100%;
-  position:fixed;
-  height:100%;
+  height: 1000px;
 `;
 const DesignBar = styled.div`
+  width: 20%;
+  margin-left:3%
+  height: 500px;
   display:flex;
-  margin-top:20px;
-  position:absolute;
-  width:50%;
-  left:50%
-  top:20%;
-  transform: translate(-50%, -50%);
+  flex-direction:column;
   text-align: center;
-  height:30px;
   flex-wrap: nowrap;
-  justify-content:space-around;
-`;
-const CreateButton = styled.button`
-  margin-top:20px;
-  position:absolute;
-  width:20%;
-  left:50%;
-  height: 40px;
-  background-color: teal;
-  color: white;
-  top:20%;
-  transform: translate(-50%, -50%);
-`;
-const HomeButton = styled.button`
-  margin-top:60%;
-  margin-bottom:20%;
-  position:absolute;
-  width:30%;
-  left:50%
-  top:20%;
-  background-color:yellow;
-  transform: translate(-50%, -50%);
-`;
+  border: 1px solid #D3D3D3;
+  font-family: 'Comfortaa', cursive;
+`
 const Palette = styled.div `
- margin-top: 545px;
- background-color: white;
- border: 1px solid black;
- position:absolute;
- width: 46%;
- height: 300px;
- left:47%
- right:50%;
- transform: translate(-50%, -50%);
+ border: 1px solid #D3D3D3;
+ width: 70%;
 `;
 
-const Length = styled.div`
-  width: 20%;
-  background-color: #FFA500;
-  border-top: 1px solid black;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
-  padding-bottom: -3em;
+const Palette2 = styled.div `
+ border: 1px solid #D3D3D3;
+ width: 70%;
+ color: green;
+ font-size:20px;
 `;
+
+
+const Begin = styled.div`
+  padding-top:20px;
+  width: 100%;
+  height:60px
+  border:1px solid #D3D3D3;
+`;
+
 const Music = styled.div`
-  width: 20%;
-  background-color: #EEF0EA;
+  width: 100%;
+  padding-top:20px;
+  height: 50px;
+  border:.5px solid #D3D3D3;
 `;
 const Voice = styled.div`
-  width: 20%;
+  width: 100%;
+  padding-top:20px;
+  height: 50px;
+  border:.5px solid #D3D3D3;
   background-color: #EEF0EA;
 `;
 const Background = styled.div`
-  width: 20%;
+  width: 100%;
+  padding-top:20px;
+  height: 50px;
+  border:.5px solid #D3D3D3;
   background-color: #EEF0EA;
 `;
 const Timer = styled.div `
-  width: 20%;
+  width: 100%;
+  padding-top:20px;
+  height: 50px;
+  border:.5px solid #D3D3D3;
   background-color: #EEF0EA;
 `;
-const Library = styled.div `
-  width: 20%;
-  height:30px;
-  padding:10px;
-  color:white;
-  background-color: #5F9EA0;
+const Panda = styled.img`
+  border-radius: 50%;
+  position:relative;
+  width:215px;
+  height:200px;
+  margin-top:20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+const SmallPanda = styled.img`
+  border-radius: 50%;
+  width:80px;
+  height:70px;
+  margin-left:30%;
+  position:relative;
+  margin-top:30%;
+  transform: translate(-50%, -50%);
 `;
 const Inspiration = styled.div `
-  width: 20%;
+  width: 100%;
   height:300px;
   padding:10px;
   vertical-align:middle;
@@ -116,31 +93,232 @@ const Inspiration = styled.div `
   background-color: white;
   border:.5px solid #5F9EA0;
 `;
-const Quote = styled.div`
-  font-size: 20px;
-  font-style: italic;
-  color: teal;
-  margin: 20px;
+const  P = styled.p `
+ margin-left:3%;
+ margin-top: 0%
+ text-align:center;
+`;
+const MusicChoices = styled.div`
+  display: flex;
+  flex-direction: rows;
 `
-const Author = styled.div`
-font-size: 18px;
-color: grey;
+const Track = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+const Images = styled.div`
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 20%;
+`
+const Musicmsg = styled.div`
+  margin-top: 50px;
+  width: 50%;
+  font-size: 24px;
+  padding-bottom: 50px;
+  text-align: center;
+  border-bottom:1px solid #D3D3D3;
+  margin-left: 20%
+`
+const MusicImg = styled.img`
+  margin-top: 30px;
+  border-radius:100%;
+  width: 120px;
+  height:120px;
 `
 
+const Musicaudio = styled.audio`
+  width: 100px;
+  height:60x;
+  background-color: red;
+  margin-left: 20%
+`
+const TrackInfo = styled.div` 
+ display:flex;
+ margin-top:50px;
+ margin-left:60px;
+ flex-direction:column;
+ margin-left:20px;
+ width: 200px;
+ font-size:14px;
+`
+const Para = styled.p`
+  margin-left:40px;
+  margin-top:5px;
+`
+const Voicemsg = styled.div`
+  margin-top: 50px;
+  width: 50%;
+  font-size: 24px;
+  padding-bottom: 50px;
+  text-align: center;
+  border-bottom:1px solid #D3D3D3;
+  margin-left: 20%
+`
+
+const VoiceInner = styled.div`
+  margin-top: 20px;
+  font-size: 18px;
+ 
+`
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: rows;
+ 
+`
+const Input = styled.input`
+ margin: 40px;
+ left: 30%;
+ text-size:14px
+ padding-left: 30px;
+ width: 600px;
+ height: 200px;
+ background: 
+`
+const TextButton = styled.div`
+  margin-top: 80px;
+  margin-left: 20px;
+  padding:15px;
+  padding-top:30px;
+  border-radius: 20%;
+  height: 50px;
+  color: white;
+  background-color: green;
+ 
+`
+const Backgroundmsg = styled.div`
+  margin-top: 50px;
+  width: 50%;
+  font-size: 24px;
+  padding-bottom: 50px;
+  text-align: center;
+  border-bottom:1px solid #D3D3D3;
+  margin-left: 20%
+`
+const Backdrops= styled.table`
+  margin-top: 50px;
+  margin-left: 10%;
+  border:1px solid #D3D3D3;
+`
+const B1= styled.td`
+  border:1px solid #D3D3D3; 
+  width: 230px;
+  height:200px;
+`
+const Img1= styled.img`
+  width: 230px;
+  height:200px;
+`
+const Img2= styled.img`
+  width: 230px;
+  height:200px;
+`
+const Img3= styled.img`
+  width: 230px;
+  height:200px;
+`
+const Img4= styled.img`
+  width: 230px;
+  height:200px;
+`
+const Img5= styled.img`
+  width: 230px;
+  height:200px;
+`
+const Img6= styled.img`
+  width: 230px;
+  height:200px;
+`
+const Img7= styled.img`
+  width: 230px;
+  height:200px;
+`
+const Img8= styled.img`
+  width: 230px;
+  height:200px;
+`
+const Img9= styled.img`
+  width: 230px;
+  height:200px;
+`
+const Completemsg = styled.div`
+  margin-top: 50px;
+  width: 50%;
+  font-size: 24px;
+  padding-bottom: 50px;
+  text-align: center;
+  border-bottom:1px solid #D3D3D3;
+  margin-left: 20%
+`
+const Library = styled.div` 
+  height: 60px;
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  padding-top: 20px;
+  margin-right: 50px;
+  margin-top: .3%;
+  color: white
+  background-color: grey;
+`
+const Movie= styled.audio` 
+  height: 500px;
+  width:700px;
+  margin-top: -47%;
+  margin-left:10%
+`
+const Playerimg= styled.img` 
+  height: 500px;
+  width:700px;
+  margin-left:10%
+`
+const Completion= styled.div` 
+ display:flex;
+ flex-direction:column;
+`
+const LibraryBar= styled.div` 
+  margin-top:20px;
+  padding-top:20px;
+  padding-bottom:15px;
+  color: black;
+  height: 100px
+ background-color:	#F0F0F0;
+ line-height: 30px;
+ 
+
+`
 class App extends React.Component {
     constructor() {
       super()
       this.state = {
-        create: false,
-        home: true, 
-        quote: {quoteText:'just breath.', quoteAuthor:''}, 
-        videos: [{external_urls: 'https://api.spotify.com/v1/tracks/3c68hPtXVdHCFiT3NjvOfK'}]
+        begin:false,
+        music:false, 
+        voice:false,
+        backgrounds:false,
+        timer:false,
+        musicColor:{'background-color':'#EEF0EA','color':'black'},
+        voiceColor:{'background-color':'#EEF0EA','color':'black'},
+        backgroundsColor: {'background-color':'#EEF0EA','color':'black'},
+        timerColor:{'background-color':'#EEF0EA','color':'black'},
+        designBarColor:{'background-color':'green'},
+        quote: {quoteText:'just breath.', quoteAuthor:''},
+        tracks: null,
+        audio: null,
+        choosenMusic: null, 
+        choosenVoice: null, 
+        chooseBackground: null,
+        value: null,
+        library:false
     }
   }
+
   componentDidMount () {
     this.getQuotes();
     this.getMusic();
   }
+ 
   getQuotes(){
     var self = this;
     axios.get('/api/quotes/')
@@ -153,28 +331,151 @@ class App extends React.Component {
        console.log(error)
      })
   }
+  
   getMusic(){
     var self = this;
-    axios.post('/api/music/')
+    axios.get('/api/music')
      .then(function(response) {
-      console.log('this is the data back', response.data) 
-      self.setState({
-        videos: response.data.tracks.items
-      })
-      console.log(self.state.videos)
+       var data = response.data.results.slice(1)
+       console.log(data)
+       self.setState({
+         tracks:data
+       })
      })
      .catch(function(error){
        console.log(error)
      })
   }
-  startCreation() {
-    console.log('hello')
+  
+  getText(e){
     this.setState({
-      create:true,
-      home: false
+      value: e.target.value
     })
   }
+
+  generateAudio(){
+    var self = this;
+    axios.post('/api/postaudio', {
+      params: this.state.value
+    })
+     .then(function(response) {
+       console.log('success')
+     })
+     .catch(function(error){
+       console.log(error)
+     })
+  }
+
+  getAudio(){
+  }
+
+  changeLibrary(){
+    if(this.state.library){
+      this.setState({
+        library:false
+      })
+    } else{
+      this.setState({
+        library:true
+      })
+    }
+  }
+
+  showDesignBar(){
+    if(this.state.begin){
+      this.setState({
+        begin:false, 
+        music:false,
+        voice:false,
+        backgrounds:false,
+        timer:false
+      })
+    } else {
+      this.setState({
+        begin:true
+      })
+    }
+   }
+
+ showMusicChoices(){
+  if(this.state.music){
+    this.setState({
+      music:false,
+      musicColor:{'background-color':'#EEF0EA','color':'black'}
+    })
+  } else {
+    this.setState({
+      music:true,
+      musicColor:{'background-color':'red','color':'white'},
+      voice:false,
+      backgrounds:false,
+      timer:false,
+      voiceColor:{'background-color':'#EEF0EA','color':'black'},
+      backgroundsColor: {'background-color':'#EEF0EA','color':'black'},
+      timerColor:{'background-color':'#EEF0EA','color':'black'}
+    })
+  }
+ }
   
+  showVoiceChoices(){
+    if(this.state.voice){
+      this.setState({
+        voice:false,
+        voiceColor:{'background-color':'#EEF0EA','color':'black'}
+      })
+    } else {
+      this.setState({
+        voice:true,
+        voiceColor:{'background-color':'red','color':'white'},
+        music:false,
+        backgrounds:false,
+        timer:false,
+        musicColor:{'background-color':'#EEF0EA','color':'black'},
+        backgroundsColor: {'background-color':'#EEF0EA','color':'black'},
+        timerColor:{'background-color':'#EEF0EA','color':'black'}
+      })
+    }
+   }
+  
+   showBackgroundChoices(){
+    if(this.state.backgrounds){
+      this.setState({
+        backgrounds:false,
+        backgroundsColor: {'background-color':'#EEF0EA','color':'black'}
+      })
+    } else {
+      this.setState({
+        backgrounds:true,
+        backgroundsColor:{'background-color':'red','color':'white'},
+        music:false,
+        voice:false,
+        timer:false,
+        musicColor:{'background-color':'#EEF0EA','color':'black'},
+        voiceColor:{'background-color':'#EEF0EA','color':'black'},
+        timerColor:{'background-color':'#EEF0EA','color':'black'}
+      })
+    }
+   }
+   showTimerChoices(){
+    if(this.state.timer){
+      this.setState({
+        timer:false,
+        timerColor:{'background-color':'#EEF0EA','color':'black'}
+      })
+    } else {
+      this.setState({
+        timer:true,
+        timerColor:{'background-color':'red','color':'white'},
+        music:false,
+        voice:false,
+        backgrounds:false,
+        musicColor:{'background-color':'#EEF0EA','color':'black'},
+        voiceColor:{'background-color':'#EEF0EA','color':'black'},
+        backgroundsColor: {'background-color':'#EEF0EA','color':'black'}
+      })
+    }
+   }
+
   returnToHomePage() {
     console.log('hello')
     this.setState({
@@ -184,43 +485,135 @@ class App extends React.Component {
   }
 
  render(){
-   return (
-    <Box>
-      <Hero>
-        <Image src="http://getwallpapers.com/wallpaper/full/4/c/e/609324.jpg" alt="meditation"/>
-      </Hero>
-      {this.state.create ? 
-      <InnerBox> 
-        <Library>
-          Library
-        </Library>
-        <DesignBar>
-        <Length>Length</Length>
-        <Music>Music</Music>
-        <Voice>Voice</Voice>
-        <Background>Background</Background>
-        <Timer>Timer</Timer>
+    return (
+      <Box >
+        <DesignBar >
+          {this.state.begin ? 
+          <div>
+            <Begin  className='pointer'onClick={this.showDesignBar.bind(this)}>Meditation Palette</Begin> 
+            <Music  className='pointer'onClick={this.showMusicChoices.bind(this)} style={this.state.musicColor}>Music</Music>
+            <Voice  className='pointer'onClick={this.showVoiceChoices.bind(this)} style={this.state.voiceColor}>Voice</Voice>
+            <Background  className='pointer'onClick={this.showBackgroundChoices.bind(this)} style={this.state.backgroundsColor} >Background</Background>
+            <Timer  className='pointer'onClick={this.showTimerChoices.bind(this)} style={this.state.timerColor}>Complete!</Timer>
+            <div> <SmallPanda src='panda.png'/></div>
+            {this.state.library ? 
+           <Library  className='pointer'onClick={this.changeLibrary.bind(this)}>
+            <div>Your Library</div>
+            <LibraryBar>Playlist_id:3<br/>Playlist_id:4<br/>Playlist_id:5</LibraryBar>
+          </Library> : 
+          <Library className='pointer' onClick={this.changeLibrary.bind(this)}>Your Library </Library>}
+           </div> :
+           <div>
+           <Begin  className='pointer'onClick={this.showDesignBar.bind(this)} >Create your Meditation</Begin> 
+           {this.state.library ? 
+           <Library  className='pointer'onClick={this.changeLibrary.bind(this)}>
+            <div>Your Library</div>
+            <LibraryBar>Playlist_id:3<br/>Playlist_id:4<br/>Playlist_id:5</LibraryBar>
+          </Library> : 
+          <Library className='pointer' onClick={this.changeLibrary.bind(this)}>Your Library </Library>}
+           </div>
+
+          }
+           
         </DesignBar>
-      <Inspiration>
-        <Quote><strong>"</strong>{this.state.quote.quoteText}<strong>"</strong></Quote>
-        <Author>-{this.state.quote.quoteAuthor}</Author> 
-      </Inspiration>
-      </InnerBox>
-      : 
-      <InnerBox>
-        <CreateButton onClick={this.startCreation.bind(this)}>Let's begin creating!</CreateButton>
-      </InnerBox>
+      {this.state.begin ? 
+       <Palette>
+        {this.state.music ? 
+        <div>
+          <Musicmsg>Choose your favorite meditation music. </Musicmsg>
+          <MusicChoices>
+            <Images>
+              {this.state.tracks && this.state.tracks.map((track,i) => (
+                
+                  <MusicImg className='pointer' key={i} src={track.tracks[0].album_image}></MusicImg>
+            
+              ))
+              }  
+            </Images>
+            <Track>
+              {this.state.tracks && this.state.tracks.map((track, g) => (
+                <TrackInfo>
+                  <Para><strong>{track.tracks[0].name}</strong> <br/>{track.tracks[0].artist_name}</Para>
+                  <Musicaudio className='pointer' key={g} controls>
+                    <source  src={track.tracks[0].audio} type="audio/mp3"/>
+                  </Musicaudio>
+                </TrackInfo>
+              ))
+              }
+            
+            </Track>
+          </MusicChoices> 
+        </div>
+        : <div></div> }
+        {this.state.voice ?
+         <div>
+          <Voicemsg>
+            <strong>What would you like to hear during meditation?</strong><br/>
+            <VoiceInner>Write whatever you'd like, and we will turn it into a soothing audio guide for you</VoiceInner>
+          </Voicemsg>
+          <Form>
+            <div>
+              <Input type="text" placeholder='just breathe.' onChange={this.getText.bind(this)}/>
+            </div>
+            <div>
+              <TextButton className='pointer' onClick={this.generateAudio.bind(this)}>generate audio</TextButton>
+            </div>
+          </Form>
+          {this.state.audio ? 
+          <audio className='pointer' controls>
+           <source src="output.mp3" type="audio/mp3"/>
+          </audio>
+          : <div></div>
+          }
+          
+        </div>
+        :
+        <div></div>
+        }
+        {this.state.backgrounds ? 
+        <div>
+          <Backgroundmsg>
+          Choose a background
+          </Backgroundmsg>
+          <Backdrops>
+            <tbody>
+              <tr>
+                <B1><Img1 className='pointer' src='https://i.ytimg.com/vi/3nhKMcPpVSM/maxresdefault.jpg'/></B1>
+                <B1><Img2 className='pointer' src='https://i.ytimg.com/vi/QZbuj3RJcjI/maxresdefault.jpg'/></B1>
+                <B1><Img3 className='pointer' src='http://images6.fanpop.com/image/photos/41200000/Meditation-josepinejackson-41205534-500-333.jpg'/></B1>
+              </tr>
+              <tr>
+                <B1><Img4 className='pointer' src='http://hdwpro.com/wp-content/uploads/2017/11/Top-Beach-Background.jpg'/></B1>
+                <B1><Img5 className='pointer' src='https://images.pexels.com/photos/68147/waterfall-thac-dray-nur-buon-me-thuot-daklak-68147.jpeg?cs=srgb&dl=landscape-nature-water-68147.jpg&fm=jpg'/></B1>
+                <B1><Img6  className='pointer' src='http://s1.picswalls.com/wallpapers/2014/08/08/iceland-background_02050943_163.jpeg'/></B1>
+              </tr>
+              <tr>
+                <B1><Img7 className='pointer' src='https://s-media-cache-ak0.pinimg.com/originals/12/56/76/125676f90eb0f661b6b4f0eabf977ff1.jpg'/></B1>
+                <B1><Img8 className='pointer' src='https://media.gettyimages.com/photos/christmas-lights-defocused-background-bokeh-gold-blue-picture-id613518332?b=1&k=6&m=613518332&s=612x612&w=0&h=2LpLo3SDBYEFA3z1AF0sNW25xlyajEpRJqUJPb-AQVA='/></B1>
+                <B1><Img9 className='pointer' src='http://backgroundcheckall.com/wp-content/uploads/2017/12/relaxing-background-images-6.jpg'/></B1>
+              </tr>
+            </tbody>
+          </Backdrops>
+        </div> : <div></div> }
+        {this.state.timer ? 
+          <Completion>
+            <Completemsg>Now, we meditate</Completemsg>
+            <Playerimg src='https://i.ytimg.com/vi/QZbuj3RJcjI/maxresdefault.jpg'></Playerimg>
+            <Movie controls>
+              <source className='pointer' src="https://mp3l.jamendo.com/?trackid=1434776&format=mp31&from=app-0e52e00b" ></source> 
+            </Movie>
+          </Completion> : <div></div> }
+       </Palette> 
+       :
+       <Palette2><div>
+         <Panda src='panda.png'/>
+        <P><strong>How do you like to meditate?</strong>
+        <br/>Create your own meditation guide. Click on the left-hand bar to begin!</P>
+       </div>
+       </Palette2>
       }
-     
-      {this.state.home ? '' : 
-      <Palette>
-       <audio src={this.state.videos[0].external_urls} allowFullScreen></audio>
-        <HomeButton onClick={this.returnToHomePage.bind(this)}>HomePage</HomeButton>
-        </Palette>  }
-    </Box>
-   )
-   
+      </Box>
+   ) 
  }
 }
-
 export default App;
