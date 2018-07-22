@@ -2,6 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
+const backImages = [
+  'https://i.ytimg.com/vi/3nhKMcPpVSM/maxresdefault.jpg',
+  'https://i.ytimg.com/vi/QZbuj3RJcjI/maxresdefault.jpg',
+  'http://images6.fanpop.com/image/photos/41200000/Meditation-josepinejackson-41205534-500-333.jpg',
+  'http://hdwpro.com/wp-content/uploads/2017/11/Top-Beach-Background.jpg',
+  'https://images.pexels.com/photos/68147/waterfall-thac-dray-nur-buon-me-thuot-daklak-68147.jpeg?cs=srgb&dl=landscape-nature-water-68147.jpg&fm=jpg',
+  'http://s1.picswalls.com/wallpapers/2014/08/08/iceland-background_02050943_163.jpeg',
+  'https://s-media-cache-ak0.pinimg.com/originals/12/56/76/125676f90eb0f661b6b4f0eabf977ff1.jpg',
+  'https://media.gettyimages.com/photos/christmas-lights-defocused-background-bokeh-gold-blue-picture-id613518332?b=1&k=6&m=613518332&s=612x612&w=0&h=2LpLo3SDBYEFA3z1AF0sNW25xlyajEpRJqUJPb-AQVA=',
+  'http://backgroundcheckall.com/wp-content/uploads/2017/12/relaxing-background-images-6.jpg'
+]
 const Box = styled.div`
   display:flex;
   flex-direction:row;
@@ -81,7 +92,7 @@ const SmallPanda = styled.img`
   height:70px;
   margin-left:30%;
   position:relative;
-  margin-top:30%;
+  margin-top:20%;
   transform: translate(-50%, -50%);
 `;
 const Inspiration = styled.div `
@@ -199,7 +210,7 @@ const Backgroundmsg = styled.div`
 `
 const Backdrops= styled.table`
   margin-top: 50px;
-  margin-left: 10%;
+  margin-left: 15%;
   border:1px solid #D3D3D3;
 `
 const B1= styled.td`
@@ -211,38 +222,10 @@ const Img1= styled.img`
   width: 230px;
   height:200px;
 `
-const Img2= styled.img`
-  width: 230px;
-  height:200px;
+const MovieAudio= styled.audio`
+  visibility: hidden;
 `
-const Img3= styled.img`
-  width: 230px;
-  height:200px;
-`
-const Img4= styled.img`
-  width: 230px;
-  height:200px;
-`
-const Img5= styled.img`
-  width: 230px;
-  height:200px;
-`
-const Img6= styled.img`
-  width: 230px;
-  height:200px;
-`
-const Img7= styled.img`
-  width: 230px;
-  height:200px;
-`
-const Img8= styled.img`
-  width: 230px;
-  height:200px;
-`
-const Img9= styled.img`
-  width: 230px;
-  height:200px;
-`
+
 const Completemsg = styled.div`
   margin-top: 50px;
   width: 50%;
@@ -266,13 +249,13 @@ const Library = styled.div`
 const Movie= styled.audio` 
   height: 500px;
   width:700px;
-  margin-top: -47%;
-  margin-left:10%
+  margin-top: -43%;
+  margin-left:15%
 `
 const Playerimg= styled.img` 
   height: 500px;
   width:700px;
-  margin-left:10%
+  margin-left:15%
 `
 const Completion= styled.div` 
  display:flex;
@@ -310,7 +293,8 @@ class App extends React.Component {
         choosenVoice: null, 
         chooseBackground: null,
         value: null,
-        library:false
+        library:false, 
+        images:backImages
     }
   }
 
@@ -337,6 +321,7 @@ class App extends React.Component {
     axios.get('/api/music')
      .then(function(response) {
        var data = response.data.results.slice(1)
+       data.pop();
        console.log(data)
        self.setState({
          tracks:data
@@ -364,9 +349,6 @@ class App extends React.Component {
      .catch(function(error){
        console.log(error)
      })
-  }
-
-  getAudio(){
   }
 
   changeLibrary(){
@@ -476,6 +458,15 @@ class App extends React.Component {
     }
    }
 
+  chooseBackdrop(value) {
+   this.setState({chooseBackground: backImages[value]})
+  }
+
+  chooseMusicTrack(value){
+    this.setState({
+      choosenMusic: this.state.tracks[value].tracks[0].audio
+    })
+  }
   returnToHomePage() {
     console.log('hello')
     this.setState({
@@ -508,7 +499,7 @@ class App extends React.Component {
            {this.state.library ? 
            <Library  className='pointer'onClick={this.changeLibrary.bind(this)}>
             <div>Your Library</div>
-            <LibraryBar>Playlist_id:3<br/>Playlist_id:4<br/>Playlist_id:5</LibraryBar>
+            <LibraryBar></LibraryBar>
           </Library> : 
           <Library className='pointer' onClick={this.changeLibrary.bind(this)}>Your Library </Library>}
            </div>
@@ -523,16 +514,16 @@ class App extends React.Component {
           <Musicmsg>Choose your favorite meditation music. </Musicmsg>
           <MusicChoices>
             <Images>
-              {this.state.tracks && this.state.tracks.map((track,i) => (
+              {this.state.tracks && this.state.tracks.map((track,h) => (
                 
-                  <MusicImg className='pointer' key={i} src={track.tracks[0].album_image}></MusicImg>
+                  <MusicImg onClick={this.chooseMusicTrack.bind(this, h)} className='pointer' key={h} src={track.tracks[0].album_image}></MusicImg>
             
               ))
               }  
             </Images>
             <Track>
               {this.state.tracks && this.state.tracks.map((track, g) => (
-                <TrackInfo>
+                <TrackInfo onClick={this.chooseMusicTrack.bind(this, g)}>
                   <Para><strong>{track.tracks[0].name}</strong> <br/>{track.tracks[0].artist_name}</Para>
                   <Musicaudio className='pointer' key={g} controls>
                     <source  src={track.tracks[0].audio} type="audio/mp3"/>
@@ -578,19 +569,19 @@ class App extends React.Component {
           <Backdrops>
             <tbody>
               <tr>
-                <B1><Img1 className='pointer' src='https://i.ytimg.com/vi/3nhKMcPpVSM/maxresdefault.jpg'/></B1>
-                <B1><Img2 className='pointer' src='https://i.ytimg.com/vi/QZbuj3RJcjI/maxresdefault.jpg'/></B1>
-                <B1><Img3 className='pointer' src='http://images6.fanpop.com/image/photos/41200000/Meditation-josepinejackson-41205534-500-333.jpg'/></B1>
+                {this.state.images.slice(0,3).map((image, i) => (
+                 <B1><Img1 key={i} onClick={this.chooseBackdrop.bind(this,i)} className='pointer' src={image}/></B1>
+                ))}
               </tr>
               <tr>
-                <B1><Img4 className='pointer' src='http://hdwpro.com/wp-content/uploads/2017/11/Top-Beach-Background.jpg'/></B1>
-                <B1><Img5 className='pointer' src='https://images.pexels.com/photos/68147/waterfall-thac-dray-nur-buon-me-thuot-daklak-68147.jpeg?cs=srgb&dl=landscape-nature-water-68147.jpg&fm=jpg'/></B1>
-                <B1><Img6  className='pointer' src='http://s1.picswalls.com/wallpapers/2014/08/08/iceland-background_02050943_163.jpeg'/></B1>
+                {this.state.images.slice(3,6).map((image, i) => (
+                 <B1><Img1 key={i} onClick={this.chooseBackdrop.bind(this,i + 3)} className='pointer' src={image}/></B1>
+                ))}
               </tr>
               <tr>
-                <B1><Img7 className='pointer' src='https://s-media-cache-ak0.pinimg.com/originals/12/56/76/125676f90eb0f661b6b4f0eabf977ff1.jpg'/></B1>
-                <B1><Img8 className='pointer' src='https://media.gettyimages.com/photos/christmas-lights-defocused-background-bokeh-gold-blue-picture-id613518332?b=1&k=6&m=613518332&s=612x612&w=0&h=2LpLo3SDBYEFA3z1AF0sNW25xlyajEpRJqUJPb-AQVA='/></B1>
-                <B1><Img9 className='pointer' src='http://backgroundcheckall.com/wp-content/uploads/2017/12/relaxing-background-images-6.jpg'/></B1>
+                {this.state.images.slice(6,9).map((image, i) => (
+                 <B1><Img1 key={i} onClick={this.chooseBackdrop.bind(this,i + 6)} className='pointer' src={image}/></B1>
+                ))}
               </tr>
             </tbody>
           </Backdrops>
@@ -598,10 +589,13 @@ class App extends React.Component {
         {this.state.timer ? 
           <Completion>
             <Completemsg>Now, we meditate</Completemsg>
-            <Playerimg src='https://i.ytimg.com/vi/QZbuj3RJcjI/maxresdefault.jpg'></Playerimg>
-            <Movie controls>
-              <source className='pointer' src="https://mp3l.jamendo.com/?trackid=1434776&format=mp31&from=app-0e52e00b" ></source> 
+            <Playerimg src={this.state.chooseBackground}></Playerimg>
+            <Movie controls autoPlay>
+              <source className='pointer' src={this.state.choosenMusic} ></source> 
             </Movie>
+            <MovieAudio controls autoPlay>
+              <source className='pointer' src='output.mp3' type="audio/mpeg"></source>
+            </MovieAudio>
           </Completion> : <div></div> }
        </Palette> 
        :

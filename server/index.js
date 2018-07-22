@@ -6,8 +6,8 @@ const axios = require('axios');
 const bodyParser = require('body-parser');
 const textToSpeech = require('@google-cloud/text-to-speech');
 const fs = require('fs');
-// const client = new textToSpeech.TextToSpeechClient(
-// );
+const client = new textToSpeech.TextToSpeechClient(
+);
 
 
 app.use(cors());
@@ -50,31 +50,31 @@ app.get('/api/music', function(req,res){
 })
 
 var text = '';
-const outputFile = './output2.mp3'
+const outputFile = path.join(__dirname, '../client/output.mp3')
 app.post('/api/postaudio', function(req,res){
   console.log(req.body.params)
    text = req.body.params
-  // const request = {
-  //   input: {text: text},
-  //   voice: {languageCode: 'en-US', ssmlGender: 'FEMALE'},
-  //   audioConfig: {audioEncoding: 'MP3'},
-  // };
+  const request = {
+    input: {text: text},
+    voice: {languageCode: 'es-ES', ssmlGender: 'FEMALE' },
+    audioConfig: {audioEncoding: 'MP3', speakingRate:'0.6',"pitch": "-2.80"},
+  };
 
-  // client.synthesizeSpeech(request, (err, response) => {
-  //   if (err) {
-  //     console.error('ERROR:', err);
-  //     return;
-  //   }
+  client.synthesizeSpeech(request, (err, response) => {
+    if (err) {
+      console.error('ERROR:', err);
+      return;
+    }
 
-  //   fs.writeFile(outputFile, response.audioContent, 'binary', err => {
-  //     if (err) {
-  //       console.error('ERROR:', err);
-  //       return;
-  //     }
-  //     console.log(`Audio content written to file: ${outputFile}`);
-  //     res.end('success')
-  //   });
-  // });
+    fs.writeFile(outputFile, response.audioContent, 'binary', err => {
+      if (err) {
+        console.error('ERROR:', err);
+        return;
+      }
+      console.log(`Audio content written to file: ${outputFile}`);
+      res.end('success')
+    });
+  });
   
 })
 

@@ -21,7 +21,12 @@ module.exports = {
         query: {
           presets: ['react', 'es2015']
        }
-      }
+      }, 
+      {
+        test: /\.mp3$/,
+        include: SRC_DIR,
+        loader: 'file-loader'
+    }
     ]
   }
 };
