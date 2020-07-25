@@ -69,7 +69,7 @@ class SetManagedCluster(base.UpdateCommand):
         information on time formats.
         """)
 
-    for instance_type in ('master', 'worker'):
+    for instance_type in ('main', 'worker'):
       help_msg = """\
       Attaches accelerators (e.g. GPUs) to the {instance_type}
       instance(s).

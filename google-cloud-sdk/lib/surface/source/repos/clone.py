@@ -49,7 +49,7 @@ class CloneGA(base.Command):
           $ {command} REPOSITORY_NAME DIRECTORY_NAME
           $ cd DIRECTORY_NAME
           ... create/edit files and create one or more commits ...
-          $ git push origin master
+          $ git push origin main
       """,
   }
 
@@ -133,7 +133,7 @@ class CloneAlpha(CloneGA):
     $ {command} REPOSITORY_NAME DIRECTORY_NAME
     $ cd DIRECTORY_NAME
     ... create/edit files and create one or more commits ...
-    $ git push origin master
+    $ git push origin main
   """
 
   @staticmethod
