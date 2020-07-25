@@ -28,7 +28,7 @@ class AcceleratorConfig(_messages.Message):
 
 
 class AckRepairWorkRequest(_messages.Message):
-  r"""HostedMaster sends Acknowledgment of repair work once it is received.
+  r"""HostedMain sends Acknowledgment of repair work once it is received.
 
   Fields:
     hasFailed: Whether the operation has failed.
@@ -60,7 +60,7 @@ class AddonsConfig(_messages.Message):
       services in a cluster.
     kubernetesDashboard: Configuration for the Kubernetes Dashboard.
     networkPolicyConfig: Configuration for NetworkPolicy. This only tracks
-      whether the addon is enabled or not on the Master, it does not track
+      whether the addon is enabled or not on the Main, it does not track
       whether network policy is enabled for the nodes.
   """
 
@@ -238,8 +238,8 @@ class AuditEventList(_messages.Message):
 
   Fields:
     items: The list of events to audit log.
-    location: The location of this master's cluster.
-    zone: The zone of this master's cluster. This field is deprecated. Use
+    location: The location of this main's cluster.
+    zone: The zone of this main's cluster. This field is deprecated. Use
       location instead.
   """
 
@@ -251,7 +251,7 @@ class AuditEventList(_messages.Message):
 class AuditObjectReference(_messages.Message):
   r"""AuditObjectReference contains enough information to let you inspect or
   modify the referred object.  Should match ObjectReference in https://github.
-  com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apiserver/pkg/apis/
+  com/kubernetes/kubernetes/blob/main/staging/src/k8s.io/apiserver/pkg/apis/
   audit/v1beta1/generated.proto.
 
   Fields:
@@ -282,7 +282,7 @@ class AuditResponse(_messages.Message):
 class AuthenticateRequest(_messages.Message):
   r"""A request to authenticate a user based on a provided OAuth2 token.  This
   should look very close to the TokenReview struct in http://github.com/kubern
-  etes/kubernetes/blob/master/pkg/apis/authentication.k8s.io/v1beta1/types.go.
+  etes/kubernetes/blob/main/pkg/apis/authentication.k8s.io/v1beta1/types.go.
   This message has 4 GKE-specific fields that get mapped from the path, but
   the other fields (the expected JSON payload) must match TokenReview.
 
@@ -290,13 +290,13 @@ class AuthenticateRequest(_messages.Message):
     apiVersion: The api version of the TokenReview object.
     kind: Fields from "pkg/apis/authentication.k8s.io/v1beta1".TokenReview:
       The "kind" of the TokenReview object.
-    location: The location of this master's cluster.
+    location: The location of this main's cluster.
     spec: The information about the request being evaluated. It contains the
       token that the server should authenticate.
     status: The response for the provided request. (this won't be filled in
       for an AuthenticateRequest, but it is part of the struct, so we need it
       here to be safe).
-    zone: The zone of this master's cluster. This field is deprecated. Use
+    zone: The zone of this main's cluster. This field is deprecated. Use
       location instead.
   """
 
@@ -311,7 +311,7 @@ class AuthenticateRequest(_messages.Message):
 class AuthenticateResponse(_messages.Message):
   r"""A response with the authenticated identity. This should match exactly
   with the TokenReview struct from http://github.com/kubernetes/kubernetes/blo
-  b/master/pkg/apis/authentication.k8s.io/types.go.
+  b/main/pkg/apis/authentication.k8s.io/types.go.
 
   Fields:
     apiVersion: The api version of the TokenReview object.
@@ -385,7 +385,7 @@ class AuthorizeRequest(_messages.Message):
   attributes of the action the user is attempting. These attributes are mapped
   to a GKE IAM permission and policy to check.  This should look very close to
   the SubjectAccessReview struct in http://github.com/kubernetes/kubernetes/bl
-  ob/master/pkg/apis/authorization/v1beta1/types.go. This message has 4 GKE-
+  ob/main/pkg/apis/authorization/v1beta1/types.go. This message has 4 GKE-
   specific fields that get mapped from the path, but the other fields (the
   expected JSON payload) must match SubjectAccessReview.
 
@@ -393,12 +393,12 @@ class AuthorizeRequest(_messages.Message):
     apiVersion: The api version of the SubjectAccessReview object.
     kind: Fields from "pkg/apis/authorization/v1beta1".SubjectAccessReview:
       The "kind" of the SubjectAccessReview object.
-    location: The location of this master's cluster.
+    location: The location of this main's cluster.
     spec: The information about the user action being evaluated.
     status: The response for the provided request (this won't be filled in for
       an AuthorizeRequest, but it is part of the struct, so we need it here to
       be safe).
-    zone: The zone of this master's cluster.
+    zone: The zone of this main's cluster.
   """
 
   apiVersion = _messages.StringField(1)
@@ -412,7 +412,7 @@ class AuthorizeRequest(_messages.Message):
 class AuthorizeResponse(_messages.Message):
   r"""A response to a request for authorization. This should match exactly
   with the SubjectAccessReview struct from http://github.com/kubernetes/kubern
-  etes/blob/master/pkg/apis/v1beta1/authorization/types.go.
+  etes/blob/main/pkg/apis/v1beta1/authorization/types.go.
 
   Fields:
     apiVersion: The api version of the SubjectAccessReview object.
@@ -492,21 +492,21 @@ class CertificateSigningRequest(_messages.Message):
 
   Fields:
     apiVersion: The api version of the CertificateSigningRequest object.
-    clusterId: The name of this master's cluster.
+    clusterId: The name of this main's cluster.
     kind: The "kind" of the CertificateSigningRequest object.
-    location: The location of this master's cluster.
-    masterProjectId: The hosted master project in which this master resides.
+    location: The location of this main's cluster.
+    mainProjectId: The hosted main project in which this main resides.
       This can be either a [project ID or project
       number](https://support.google.com/cloud/answer/6158840).
     projectNumber: The project number for which the certificate is being
-      signed. This is the project in which this master's cluster resides.
+      signed. This is the project in which this main's cluster resides.
       This is an int64, so it must be a project number, not a project ID.
     spec: The specification holds information about the certificate requesting
       to be signed.
     status: The status is populated at response time, and holds information
       about the success or failure of the operation along with the signed
       certificate.
-    zone: The zone of this master's cluster. This field is deprecated. Use
+    zone: The zone of this main's cluster. This field is deprecated. Use
       location instead.
   """
 
@@ -514,7 +514,7 @@ class CertificateSigningRequest(_messages.Message):
   clusterId = _messages.StringField(2)
   kind = _messages.StringField(3)
   location = _messages.StringField(4)
-  masterProjectId = _messages.StringField(5)
+  mainProjectId = _messages.StringField(5)
   projectNumber = _messages.IntegerField(6)
   spec = _messages.MessageField('CertificateSigningRequestSpec', 7)
   status = _messages.MessageField('CertificateSigningRequestStatus', 8)
@@ -629,8 +629,8 @@ class Cluster(_messages.Message):
       automatically chosen or specify a `/14` block in `10.0.0.0/8`.
     createTime: [Output only] The time the cluster was created, in
       [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
-    currentMasterVersion: [Output only] The current software version of the
-      master endpoint.
+    currentMainVersion: [Output only] The current software version of the
+      main endpoint.
     currentNodeCount: [Output only] The number of nodes currently in the
       cluster.
     currentNodeVersion: [Output only] The current version of the node software
@@ -640,20 +640,20 @@ class Cluster(_messages.Message):
     description: An optional description of this cluster.
     enableKubernetesAlpha: Kubernetes alpha features are enabled on this
       cluster. This includes alpha API groups (e.g. v1alpha1) and features
-      that may not be production ready in the kubernetes version of the master
-      and nodes. The cluster has no SLA for uptime and master/node upgrades
+      that may not be production ready in the kubernetes version of the main
+      and nodes. The cluster has no SLA for uptime and main/node upgrades
       are disabled. Alpha enabled clusters are automatically deleted thirty
       days after creation.
-    endpoint: [Output only] The IP address of this cluster's master endpoint.
+    endpoint: [Output only] The IP address of this cluster's main endpoint.
       The endpoint can be accessed from the internet at
-      `https://username:password@endpoint/`.  See the `masterAuth` property of
+      `https://username:password@endpoint/`.  See the `mainAuth` property of
       this resource for username and password information.
     expireTime: [Output only] The time the cluster will be automatically
       deleted in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
     initialClusterVersion: The initial Kubernetes version for this cluster.
-      Valid versions are those found in validMasterVersions returned by
+      Valid versions are those found in validMainVersions returned by
       getServerConfig.  The version can be upgraded over time; such upgrades
-      are reflected in currentMasterVersion and currentNodeVersion.  Users may
+      are reflected in currentMainVersion and currentNodeVersion.  Users may
       specify either explicit versions offered by Kubernetes Engine or version
       aliases, which have the following behavior:  - "latest": picks the
       highest valid Kubernetes version - "1.X": picks the highest valid
@@ -685,12 +685,12 @@ class Cluster(_messages.Message):
       cluster. * if left as an empty string,`logging.googleapis.com` will be
       used.
     maintenancePolicy: Configure the maintenance policy for this cluster.
-    masterAuth: The authentication information for accessing the master
+    mainAuth: The authentication information for accessing the main
       endpoint.
-    masterAuthorizedNetworks: The configuration options for master authorized
+    mainAuthorizedNetworks: The configuration options for main authorized
       networks feature. This field is deprecated, use
-      master_authorized_networks_config instead.
-    masterAuthorizedNetworksConfig: The configuration options for master
+      main_authorized_networks_config instead.
+    mainAuthorizedNetworksConfig: The configuration options for main
       authorized networks feature.
     monitoringService: The monitoring service the cluster should use to write
       metrics. Currently available options:  * `monitoring.googleapis.com` -
@@ -746,7 +746,7 @@ class Cluster(_messages.Message):
       RUNNING: The RUNNING state indicates the cluster has been created and is
         fully usable.
       RECONCILING: The RECONCILING state indicates that some work is actively
-        being done on the cluster, such as upgrading the master or node
+        being done on the cluster, such as upgrading the main or node
         software. Details can be found in the `statusMessage` field.
       STOPPING: The STOPPING state indicates the cluster is being deleted.
       ERROR: The ERROR state indicates the cluster may be unusable. Details
@@ -793,7 +793,7 @@ class Cluster(_messages.Message):
   auditConfig = _messages.MessageField('AuditConfig', 2)
   clusterIpv4Cidr = _messages.StringField(3)
   createTime = _messages.StringField(4)
-  currentMasterVersion = _messages.StringField(5)
+  currentMainVersion = _messages.StringField(5)
   currentNodeCount = _messages.IntegerField(6, variant=_messages.Variant.INT32)
   currentNodeVersion = _messages.StringField(7)
   description = _messages.StringField(8)
@@ -810,9 +810,9 @@ class Cluster(_messages.Message):
   locations = _messages.StringField(19, repeated=True)
   loggingService = _messages.StringField(20)
   maintenancePolicy = _messages.MessageField('MaintenancePolicy', 21)
-  masterAuth = _messages.MessageField('MasterAuth', 22)
-  masterAuthorizedNetworks = _messages.MessageField('MasterAuthorizedNetworks', 23)
-  masterAuthorizedNetworksConfig = _messages.MessageField('MasterAuthorizedNetworksConfig', 24)
+  mainAuth = _messages.MessageField('MainAuth', 22)
+  mainAuthorizedNetworks = _messages.MessageField('MainAuthorizedNetworks', 23)
+  mainAuthorizedNetworksConfig = _messages.MessageField('MainAuthorizedNetworksConfig', 24)
   monitoringService = _messages.StringField(25)
   name = _messages.StringField(26)
   network = _messages.StringField(27)
@@ -896,18 +896,18 @@ class ClusterUpdate(_messages.Message):
       nodes being either created or removed from the cluster, depending on
       whether locations are being added or removed.  This list must always
       include the cluster's primary zone.
-    desiredMasterAuthorizedNetworks: The desired configuration options for
-      master authorized networks feature. This field is deprecated, use
-      desired_master_authorized_networks_config instead.
-    desiredMasterAuthorizedNetworksConfig: The desired configuration options
-      for master authorized networks feature.
-    desiredMasterId: An id of master replica to be updated. Can be set only
-      when desired_master_version is set. If not set, all replicas will be
+    desiredMainAuthorizedNetworks: The desired configuration options for
+      main authorized networks feature. This field is deprecated, use
+      desired_main_authorized_networks_config instead.
+    desiredMainAuthorizedNetworksConfig: The desired configuration options
+      for main authorized networks feature.
+    desiredMainId: An id of main replica to be updated. Can be set only
+      when desired_main_version is set. If not set, all replicas will be
       updated.
-    desiredMasterMachineType: The name of a Google Compute Engine [machine
+    desiredMainMachineType: The name of a Google Compute Engine [machine
       type](/compute/docs/machine-types) (e.g. `n1-standard-8`) to change the
-      master to.
-    desiredMasterVersion: The Kubernetes version to change the master to.
+      main to.
+    desiredMainVersion: The Kubernetes version to change the main to.
       Users may specify either explicit versions offered by Kubernetes Engine
       or version aliases, which have the following behavior:  - "latest":
       picks the highest valid Kubernetes version - "1.X": picks the highest
@@ -933,7 +933,7 @@ class ClusterUpdate(_messages.Message):
       version - "1.X": picks the highest valid patch+gke.N patch in the 1.X
       version - "1.X.Y": picks the highest valid gke.N patch in the 1.X.Y
       version - "1.X.Y-gke.N": picks an explicit Kubernetes version - "-":
-      picks the Kubernetes master version
+      picks the Kubernetes main version
   """
 
   desiredAddonsConfig = _messages.MessageField('AddonsConfig', 1)
@@ -943,11 +943,11 @@ class ClusterUpdate(_messages.Message):
   desiredImageProject = _messages.StringField(5)
   desiredImageType = _messages.StringField(6)
   desiredLocations = _messages.StringField(7, repeated=True)
-  desiredMasterAuthorizedNetworks = _messages.MessageField('MasterAuthorizedNetworks', 8)
-  desiredMasterAuthorizedNetworksConfig = _messages.MessageField('MasterAuthorizedNetworksConfig', 9)
-  desiredMasterId = _messages.StringField(10)
-  desiredMasterMachineType = _messages.StringField(11)
-  desiredMasterVersion = _messages.StringField(12)
+  desiredMainAuthorizedNetworks = _messages.MessageField('MainAuthorizedNetworks', 8)
+  desiredMainAuthorizedNetworksConfig = _messages.MessageField('MainAuthorizedNetworksConfig', 9)
+  desiredMainId = _messages.StringField(10)
+  desiredMainMachineType = _messages.StringField(11)
+  desiredMainVersion = _messages.StringField(12)
   desiredMonitoringService = _messages.StringField(13)
   desiredNodePoolAutoscaling = _messages.MessageField('NodePoolAutoscaling', 14)
   desiredNodePoolId = _messages.StringField(15)
@@ -970,7 +970,7 @@ class ClusterUpdateOptions(_messages.Message):
 
 
 class CompleteIPRotationRequest(_messages.Message):
-  r"""CompleteIPRotationRequest moves the cluster master back into single-IP
+  r"""CompleteIPRotationRequest moves the cluster main back into single-IP
   mode.
 
   Fields:
@@ -996,327 +996,327 @@ class CompleteIPRotationRequest(_messages.Message):
   zone = _messages.StringField(5)
 
 
-class ContainerMasterProjectsLocationsAuditRequest(_messages.Message):
-  r"""A ContainerMasterProjectsLocationsAuditRequest object.
+class ContainerMainProjectsLocationsAuditRequest(_messages.Message):
+  r"""A ContainerMainProjectsLocationsAuditRequest object.
 
   Fields:
     auditEventList: A AuditEventList resource to be passed as the request
       body.
-    clusterId: The name of this master's cluster.
-    location: The location of this master's cluster.
-    masterProjectId: The hosted master project in which this master resides.
+    clusterId: The name of this main's cluster.
+    location: The location of this main's cluster.
+    mainProjectId: The hosted main project in which this main resides.
       This can be either a [project ID or project
       number](https://support.google.com/cloud/answer/6158840).
     projectNumber: The project number for which the request is being
-      authorized.  This is the project in which this master's cluster resides.
+      authorized.  This is the project in which this main's cluster resides.
       This is an int64, so it must be a project number, not a project ID.
   """
 
   auditEventList = _messages.MessageField('AuditEventList', 1)
   clusterId = _messages.StringField(2, required=True)
   location = _messages.StringField(3, required=True)
-  masterProjectId = _messages.StringField(4, required=True)
+  mainProjectId = _messages.StringField(4, required=True)
   projectNumber = _messages.IntegerField(5, required=True)
 
 
-class ContainerMasterProjectsLocationsAuthenticateRequest(_messages.Message):
-  r"""A ContainerMasterProjectsLocationsAuthenticateRequest object.
+class ContainerMainProjectsLocationsAuthenticateRequest(_messages.Message):
+  r"""A ContainerMainProjectsLocationsAuthenticateRequest object.
 
   Fields:
     authenticateRequest: A AuthenticateRequest resource to be passed as the
       request body.
-    clusterId: The name of this master's cluster.
-    location: The location of this master's cluster.
-    masterProjectId: The hosted master project in which this master resides.
+    clusterId: The name of this main's cluster.
+    location: The location of this main's cluster.
+    mainProjectId: The hosted main project in which this main resides.
       This can be either a [project ID or project
       number](https://support.google.com/cloud/answer/6158840).
     projectNumber: The project number for which the signed URLs are being
-      requested.  This is the project in which this master's cluster resides.
+      requested.  This is the project in which this main's cluster resides.
       Note that this must be a project number, not a project ID.
   """
 
   authenticateRequest = _messages.MessageField('AuthenticateRequest', 1)
   clusterId = _messages.StringField(2, required=True)
   location = _messages.StringField(3, required=True)
-  masterProjectId = _messages.StringField(4, required=True)
+  mainProjectId = _messages.StringField(4, required=True)
   projectNumber = _messages.IntegerField(5, required=True)
 
 
-class ContainerMasterProjectsLocationsAuthorizeRequest(_messages.Message):
-  r"""A ContainerMasterProjectsLocationsAuthorizeRequest object.
+class ContainerMainProjectsLocationsAuthorizeRequest(_messages.Message):
+  r"""A ContainerMainProjectsLocationsAuthorizeRequest object.
 
   Fields:
     authorizeRequest: A AuthorizeRequest resource to be passed as the request
       body.
-    clusterId: The name of this master's cluster.
-    location: The location of this master's cluster.
-    masterProjectId: The hosted master project in which this master resides.
+    clusterId: The name of this main's cluster.
+    location: The location of this main's cluster.
+    mainProjectId: The hosted main project in which this main resides.
       This can be either a [project ID or project
       number](https://support.google.com/cloud/answer/6158840).
     projectNumber: This field is deprecated. Use location instead. The project
       number for which the request is being authorized.  This is the project
-      in which this master's cluster resides.  This is an int64, so it must be
+      in which this main's cluster resides.  This is an int64, so it must be
       a project number, not a project ID.
   """
 
   authorizeRequest = _messages.MessageField('AuthorizeRequest', 1)
   clusterId = _messages.StringField(2, required=True)
   location = _messages.StringField(3, required=True)
-  masterProjectId = _messages.StringField(4, required=True)
+  mainProjectId = _messages.StringField(4, required=True)
   projectNumber = _messages.IntegerField(5, required=True)
 
 
-class ContainerMasterProjectsLocationsImagereviewRequest(_messages.Message):
-  r"""A ContainerMasterProjectsLocationsImagereviewRequest object.
+class ContainerMainProjectsLocationsImagereviewRequest(_messages.Message):
+  r"""A ContainerMainProjectsLocationsImagereviewRequest object.
 
   Fields:
-    clusterId: The name of this master's cluster.
+    clusterId: The name of this main's cluster.
     imageReviewRequest: A ImageReviewRequest resource to be passed as the
       request body.
-    location: The location of this master's cluster.
-    masterProjectId: The hosted master project in which this master resides.
+    location: The location of this main's cluster.
+    mainProjectId: The hosted main project in which this main resides.
       This can be either a [project ID or project
       number](https://support.google.com/cloud/answer/6158840).
     projectNumber: The project number for which the request is being
-      authorized.  This is the project in which this master's cluster resides.
+      authorized.  This is the project in which this main's cluster resides.
       This is an int64, so it must be a project number, not a project ID.
   """
 
   clusterId = _messages.StringField(1, required=True)
   imageReviewRequest = _messages.MessageField('ImageReviewRequest', 2)
   location = _messages.StringField(3, required=True)
-  masterProjectId = _messages.StringField(4, required=True)
+  mainProjectId = _messages.StringField(4, required=True)
   projectNumber = _messages.IntegerField(5, required=True)
 
 
-class ContainerMasterProjectsLocationsProjectsClustersMasterAckRepairworkRequest(_messages.Message):
+class ContainerMainProjectsLocationsProjectsClustersMainAckRepairworkRequest(_messages.Message):
   r"""A
-  ContainerMasterProjectsLocationsProjectsClustersMasterAckRepairworkRequest
+  ContainerMainProjectsLocationsProjectsClustersMainAckRepairworkRequest
   object.
 
   Fields:
     ackRepairWorkRequest: A AckRepairWorkRequest resource to be passed as the
       request body.
-    clusterId: Cluster name of the cluster this master manages.
-    location: Location of the hosted master.
-    masterId: Master ID of the cluster master, unique identifier.
-    masterProjectName: Project Name of the Hosted Master Project.
-    projectNumber: Project number of the cluster this master manages.
+    clusterId: Cluster name of the cluster this main manages.
+    location: Location of the hosted main.
+    mainId: Main ID of the cluster main, unique identifier.
+    mainProjectName: Project Name of the Hosted Main Project.
+    projectNumber: Project number of the cluster this main manages.
   """
 
   ackRepairWorkRequest = _messages.MessageField('AckRepairWorkRequest', 1)
   clusterId = _messages.StringField(2, required=True)
   location = _messages.StringField(3, required=True)
-  masterId = _messages.StringField(4, required=True)
-  masterProjectName = _messages.StringField(5, required=True)
+  mainId = _messages.StringField(4, required=True)
+  mainProjectName = _messages.StringField(5, required=True)
   projectNumber = _messages.IntegerField(6, required=True)
 
 
-class ContainerMasterProjectsLocationsProjectsClustersMasterGetRepairworkRequest(_messages.Message):
+class ContainerMainProjectsLocationsProjectsClustersMainGetRepairworkRequest(_messages.Message):
   r"""A
-  ContainerMasterProjectsLocationsProjectsClustersMasterGetRepairworkRequest
+  ContainerMainProjectsLocationsProjectsClustersMainGetRepairworkRequest
   object.
 
   Fields:
-    clusterId: Cluster name of the cluster this master manages.
-    location: Location of the hosted master.
-    masterId: Master ID of the cluster master, unique identifier.
-    masterProjectName: Project Name of the Hosted Master Project.
-    projectNumber: Project number of the cluster this master manages.
+    clusterId: Cluster name of the cluster this main manages.
+    location: Location of the hosted main.
+    mainId: Main ID of the cluster main, unique identifier.
+    mainProjectName: Project Name of the Hosted Main Project.
+    projectNumber: Project number of the cluster this main manages.
   """
 
   clusterId = _messages.StringField(1, required=True)
   location = _messages.StringField(2, required=True)
-  masterId = _messages.StringField(3, required=True)
-  masterProjectName = _messages.StringField(4, required=True)
+  mainId = _messages.StringField(3, required=True)
+  mainProjectName = _messages.StringField(4, required=True)
   projectNumber = _messages.IntegerField(5, required=True)
 
 
-class ContainerMasterProjectsLocationsProjectsClustersNamespacesFinalizeRequest(_messages.Message):
+class ContainerMainProjectsLocationsProjectsClustersNamespacesFinalizeRequest(_messages.Message):
   r"""A
-  ContainerMasterProjectsLocationsProjectsClustersNamespacesFinalizeRequest
+  ContainerMainProjectsLocationsProjectsClustersNamespacesFinalizeRequest
   object.
 
   Fields:
-    clusterId: Cluster name of the cluster this master manages.
-    location: Location of the hosted master.
-    masterProjectId: The hosted master project in which this master resides.
+    clusterId: Cluster name of the cluster this main manages.
+    location: Location of the hosted main.
+    mainProjectId: The hosted main project in which this main resides.
       This can be either a [project ID or project
       number](https://support.google.com/cloud/answer/6158840).
     namespaceId: Namespace name (not uuid).
-    projectNumber: Project number of the cluster this master manages.
+    projectNumber: Project number of the cluster this main manages.
   """
 
   clusterId = _messages.StringField(1, required=True)
   location = _messages.StringField(2, required=True)
-  masterProjectId = _messages.StringField(3, required=True)
+  mainProjectId = _messages.StringField(3, required=True)
   namespaceId = _messages.StringField(4, required=True)
   projectNumber = _messages.IntegerField(5, required=True)
 
 
-class ContainerMasterProjectsLocationsSignedUrlsCreateRequest(_messages.Message):
-  r"""A ContainerMasterProjectsLocationsSignedUrlsCreateRequest object.
+class ContainerMainProjectsLocationsSignedUrlsCreateRequest(_messages.Message):
+  r"""A ContainerMainProjectsLocationsSignedUrlsCreateRequest object.
 
   Fields:
     createSignedUrlsRequest: A CreateSignedUrlsRequest resource to be passed
       as the request body.
-    location: The location of this master's cluster.
-    masterProjectId: The hosted master project in which this master resides.
+    location: The location of this main's cluster.
+    mainProjectId: The hosted main project in which this main resides.
       This can be either a [project ID or project
       number](https://support.google.com/cloud/answer/6158840).
   """
 
   createSignedUrlsRequest = _messages.MessageField('CreateSignedUrlsRequest', 1)
   location = _messages.StringField(2, required=True)
-  masterProjectId = _messages.StringField(3, required=True)
+  mainProjectId = _messages.StringField(3, required=True)
 
 
-class ContainerMasterProjectsLocationsTokensCreateRequest(_messages.Message):
-  r"""A ContainerMasterProjectsLocationsTokensCreateRequest object.
+class ContainerMainProjectsLocationsTokensCreateRequest(_messages.Message):
+  r"""A ContainerMainProjectsLocationsTokensCreateRequest object.
 
   Fields:
     createTokenRequest: A CreateTokenRequest resource to be passed as the
       request body.
-    location: The location of this master's cluster.
-    masterProjectId: The hosted master project in which this master resides.
+    location: The location of this main's cluster.
+    mainProjectId: The hosted main project in which this main resides.
       This can be either a [project ID or project
       number](https://support.google.com/cloud/answer/6158840).
   """
 
   createTokenRequest = _messages.MessageField('CreateTokenRequest', 1)
   location = _messages.StringField(2, required=True)
-  masterProjectId = _messages.StringField(3, required=True)
+  mainProjectId = _messages.StringField(3, required=True)
 
 
-class ContainerMasterProjectsZonesAuditRequest(_messages.Message):
-  r"""A ContainerMasterProjectsZonesAuditRequest object.
+class ContainerMainProjectsZonesAuditRequest(_messages.Message):
+  r"""A ContainerMainProjectsZonesAuditRequest object.
 
   Fields:
     auditEventList: A AuditEventList resource to be passed as the request
       body.
-    clusterId: The name of this master's cluster.
-    masterProjectId: The hosted master project in which this master resides.
+    clusterId: The name of this main's cluster.
+    mainProjectId: The hosted main project in which this main resides.
       This can be either a [project ID or project
       number](https://support.google.com/cloud/answer/6158840).
     projectNumber: The project number for which the request is being
-      authorized.  This is the project in which this master's cluster resides.
+      authorized.  This is the project in which this main's cluster resides.
       This is an int64, so it must be a project number, not a project ID.
-    zone: The zone of this master's cluster. This field is deprecated. Use
+    zone: The zone of this main's cluster. This field is deprecated. Use
       location instead.
   """
 
   auditEventList = _messages.MessageField('AuditEventList', 1)
   clusterId = _messages.StringField(2, required=True)
-  masterProjectId = _messages.StringField(3, required=True)
+  mainProjectId = _messages.StringField(3, required=True)
   projectNumber = _messages.IntegerField(4, required=True)
   zone = _messages.StringField(5, required=True)
 
 
-class ContainerMasterProjectsZonesAuthenticateRequest(_messages.Message):
-  r"""A ContainerMasterProjectsZonesAuthenticateRequest object.
+class ContainerMainProjectsZonesAuthenticateRequest(_messages.Message):
+  r"""A ContainerMainProjectsZonesAuthenticateRequest object.
 
   Fields:
     authenticateRequest: A AuthenticateRequest resource to be passed as the
       request body.
-    clusterId: The name of this master's cluster.
-    masterProjectId: The hosted master project in which this master resides.
+    clusterId: The name of this main's cluster.
+    mainProjectId: The hosted main project in which this main resides.
       This can be either a [project ID or project
       number](https://support.google.com/cloud/answer/6158840).
     projectNumber: The project number for which the signed URLs are being
-      requested.  This is the project in which this master's cluster resides.
+      requested.  This is the project in which this main's cluster resides.
       Note that this must be a project number, not a project ID.
-    zone: The zone of this master's cluster. This field is deprecated. Use
+    zone: The zone of this main's cluster. This field is deprecated. Use
       location instead.
   """
 
   authenticateRequest = _messages.MessageField('AuthenticateRequest', 1)
   clusterId = _messages.StringField(2, required=True)
-  masterProjectId = _messages.StringField(3, required=True)
+  mainProjectId = _messages.StringField(3, required=True)
   projectNumber = _messages.IntegerField(4, required=True)
   zone = _messages.StringField(5, required=True)
 
 
-class ContainerMasterProjectsZonesAuthorizeRequest(_messages.Message):
-  r"""A ContainerMasterProjectsZonesAuthorizeRequest object.
+class ContainerMainProjectsZonesAuthorizeRequest(_messages.Message):
+  r"""A ContainerMainProjectsZonesAuthorizeRequest object.
 
   Fields:
     authorizeRequest: A AuthorizeRequest resource to be passed as the request
       body.
-    clusterId: The name of this master's cluster.
-    masterProjectId: The hosted master project in which this master resides.
+    clusterId: The name of this main's cluster.
+    mainProjectId: The hosted main project in which this main resides.
       This can be either a [project ID or project
       number](https://support.google.com/cloud/answer/6158840).
     projectNumber: This field is deprecated. Use location instead. The project
       number for which the request is being authorized.  This is the project
-      in which this master's cluster resides.  This is an int64, so it must be
+      in which this main's cluster resides.  This is an int64, so it must be
       a project number, not a project ID.
-    zone: The zone of this master's cluster.
+    zone: The zone of this main's cluster.
   """
 
   authorizeRequest = _messages.MessageField('AuthorizeRequest', 1)
   clusterId = _messages.StringField(2, required=True)
-  masterProjectId = _messages.StringField(3, required=True)
+  mainProjectId = _messages.StringField(3, required=True)
   projectNumber = _messages.IntegerField(4, required=True)
   zone = _messages.StringField(5, required=True)
 
 
-class ContainerMasterProjectsZonesImagereviewRequest(_messages.Message):
-  r"""A ContainerMasterProjectsZonesImagereviewRequest object.
+class ContainerMainProjectsZonesImagereviewRequest(_messages.Message):
+  r"""A ContainerMainProjectsZonesImagereviewRequest object.
 
   Fields:
-    clusterId: The name of this master's cluster.
+    clusterId: The name of this main's cluster.
     imageReviewRequest: A ImageReviewRequest resource to be passed as the
       request body.
-    masterProjectId: The hosted master project in which this master resides.
+    mainProjectId: The hosted main project in which this main resides.
       This can be either a [project ID or project
       number](https://support.google.com/cloud/answer/6158840).
     projectNumber: The project number for which the request is being
-      authorized.  This is the project in which this master's cluster resides.
+      authorized.  This is the project in which this main's cluster resides.
       This is an int64, so it must be a project number, not a project ID.
-    zone: The zone of this master's cluster. This field is deprecated. Use
+    zone: The zone of this main's cluster. This field is deprecated. Use
       location instead.
   """
 
   clusterId = _messages.StringField(1, required=True)
   imageReviewRequest = _messages.MessageField('ImageReviewRequest', 2)
-  masterProjectId = _messages.StringField(3, required=True)
+  mainProjectId = _messages.StringField(3, required=True)
   projectNumber = _messages.IntegerField(4, required=True)
   zone = _messages.StringField(5, required=True)
 
 
-class ContainerMasterProjectsZonesSignedUrlsCreateRequest(_messages.Message):
-  r"""A ContainerMasterProjectsZonesSignedUrlsCreateRequest object.
+class ContainerMainProjectsZonesSignedUrlsCreateRequest(_messages.Message):
+  r"""A ContainerMainProjectsZonesSignedUrlsCreateRequest object.
 
   Fields:
     createSignedUrlsRequest: A CreateSignedUrlsRequest resource to be passed
       as the request body.
-    masterProjectId: The hosted master project in which this master resides.
+    mainProjectId: The hosted main project in which this main resides.
       This can be either a [project ID or project
       number](https://support.google.com/cloud/answer/6158840).
-    zone: The zone of this master's cluster. This field is deprecated. Use
+    zone: The zone of this main's cluster. This field is deprecated. Use
       location instead.
   """
 
   createSignedUrlsRequest = _messages.MessageField('CreateSignedUrlsRequest', 1)
-  masterProjectId = _messages.StringField(2, required=True)
+  mainProjectId = _messages.StringField(2, required=True)
   zone = _messages.StringField(3, required=True)
 
 
-class ContainerMasterProjectsZonesTokensCreateRequest(_messages.Message):
-  r"""A ContainerMasterProjectsZonesTokensCreateRequest object.
+class ContainerMainProjectsZonesTokensCreateRequest(_messages.Message):
+  r"""A ContainerMainProjectsZonesTokensCreateRequest object.
 
   Fields:
     createTokenRequest: A CreateTokenRequest resource to be passed as the
       request body.
-    masterProjectId: The hosted master project in which this master resides.
+    mainProjectId: The hosted main project in which this main resides.
       This can be either a [project ID or project
       number](https://support.google.com/cloud/answer/6158840).
-    zone: The zone of this master's cluster. This field is deprecated. Use
+    zone: The zone of this main's cluster. This field is deprecated. Use
       location instead.
   """
 
   createTokenRequest = _messages.MessageField('CreateTokenRequest', 1)
-  masterProjectId = _messages.StringField(2, required=True)
+  mainProjectId = _messages.StringField(2, required=True)
   zone = _messages.StringField(3, required=True)
 
 
@@ -1820,17 +1820,17 @@ class CreateNodePoolRequest(_messages.Message):
 
 class CreateSignedUrlsRequest(_messages.Message):
   r"""A request for signed URLs that allow for writing a file to a private GCS
-  bucket for storing backups of hosted master data.
+  bucket for storing backups of hosted main data.
 
   Fields:
-    clusterId: The name of this master's cluster.
+    clusterId: The name of this main's cluster.
     filenames: The names of the files for which a signed URLs are being
       requested.
-    location: The location of this master's cluster.
+    location: The location of this main's cluster.
     projectNumber: The project number for which the signed URLs are being
-      requested.  This is the project in which this master's cluster resides.
+      requested.  This is the project in which this main's cluster resides.
       Note that this must be a project number, not a project ID.
-    zone: The zone of this master's cluster. This field is deprecated. Use
+    zone: The zone of this main's cluster. This field is deprecated. Use
       location instead.
   """
 
@@ -1844,16 +1844,16 @@ class CreateSignedUrlsRequest(_messages.Message):
 class CreateTokenRequest(_messages.Message):
   r"""A request for a compute-read-write
   (https://www.googleapis.com/auth/compute) scoped OAuth2 access token for
-  <project_number>, to allow hosted masters to make modifications to a user's
+  <project_number>, to allow hosted mains to make modifications to a user's
   project.
 
   Fields:
-    clusterId: The name of this master's cluster.
-    location: The location of this master's cluster.
+    clusterId: The name of this main's cluster.
+    location: The location of this main's cluster.
     projectNumber: The project number for which the access is being requested.
-      This is the project in which this master's cluster resides.  Note that
+      This is the project in which this main's cluster resides.  Note that
       this must be a project number, not a project ID.
-    zone: The zone of this master's cluster. This field is deprecated. Use
+    zone: The zone of this main's cluster. This field is deprecated. Use
       location instead.
   """
 
@@ -1908,28 +1908,28 @@ class Empty(_messages.Message):
 
 
 class GetRepairWorkResponse(_messages.Message):
-  r"""Response sent back to the Hosted Master detailing if there is work, and
+  r"""Response sent back to the Hosted Main detailing if there is work, and
   if so, what kind of work to do.
 
   Enums:
-    RepairTypeValueValuesEnum: The type of repair for this master.
+    RepairTypeValueValuesEnum: The type of repair for this main.
 
   Fields:
     clearEventEtcdDetails: clear_event_etcd_details token to be used when
       clearing event etcd. Required for CLEAR_EVENT_ETCD repair.
     repairId: Repair ID of the returned repair.
-    repairType: The type of repair for this master.
+    repairType: The type of repair for this main.
     restoreEtcdDetails: restore_etcd_details describes what backup should be
       used in RESTORE_ETCD. Required for repair_type = RESTORE_ETCD.
   """
 
   class RepairTypeValueValuesEnum(_messages.Enum):
-    r"""The type of repair for this master.
+    r"""The type of repair for this main.
 
     Values:
       UNKNOWN: Unknown Repair Type.
       REBOOT: A VM Reboot is required.
-      IN_PLACE: An in place master repair is required.
+      IN_PLACE: An in place main repair is required.
       NONE: No Repair is required
       RESTORE_ETCD: Restore etcd from backup.
       CLEAR_EVENT_ETCD: Clear event etcd.
@@ -2054,7 +2054,7 @@ class ImageReviewRequest(_messages.Message):
   r"""A request to verify an image. The request contains the attributes of the
   container to create. These are passed to BCID for verification.  This should
   look very close to the ImageReview struct in http://github.com/kubernetes/ku
-  bernetes/blob/master/pkg/apis/imagepolicy/v1beta1/types.go. This message has
+  bernetes/blob/main/pkg/apis/imagepolicy/v1beta1/types.go. This message has
   4 GKE-specific fields that get mapped from the path, but the other fields
   (the expected JSON payload) must match ImageReview.
 
@@ -2062,12 +2062,12 @@ class ImageReviewRequest(_messages.Message):
     apiVersion: The api version of the SubjectAccessReview object.
     kind: Fields from "pkg/apis/authorization/v1beta1".SubjectAccessReview:
       The "kind" of the SubjectAccessReview object.
-    location: The location of this master's cluster.
+    location: The location of this main's cluster.
     spec: The information about the user action being evaluated.
     status: The response for the provided request (this won't be filled in for
       an AuthorizeRequest, but it is part of the struct, so we need it here to
       be safe).
-    zone: The zone of this master's cluster. This field is deprecated. Use
+    zone: The zone of this main's cluster. This field is deprecated. Use
       location instead.
   """
 
@@ -2082,7 +2082,7 @@ class ImageReviewRequest(_messages.Message):
 class ImageReviewResponse(_messages.Message):
   r"""A response to a request for image verification. This should match
   exactly with the ImageReview struct from http://github.com/kubernetes/kubern
-  etes/blob/master/pkg/apis/v1beta1/authorization/types.go.
+  etes/blob/main/pkg/apis/v1beta1/authorization/types.go.
 
   Fields:
     apiVersion: The api version of the ImageReview object.
@@ -2255,8 +2255,8 @@ class MaintenanceWindow(_messages.Message):
   dailyMaintenanceWindow = _messages.MessageField('DailyMaintenanceWindow', 1)
 
 
-class MasterAuth(_messages.Message):
-  r"""The authentication information for accessing the master endpoint.
+class MainAuth(_messages.Message):
+  r"""The authentication information for accessing the main endpoint.
   Authentication can be done using HTTP basic auth or using client
   certificates.
 
@@ -2270,11 +2270,11 @@ class MasterAuth(_messages.Message):
       authenticate to the cluster endpoint.
     clusterCaCertificate: [Output only] Base64-encoded public certificate that
       is the root of trust for the cluster.
-    password: The password to use for HTTP basic authentication to the master
-      endpoint. Because the master endpoint is open to the Internet, you
+    password: The password to use for HTTP basic authentication to the main
+      endpoint. Because the main endpoint is open to the Internet, you
       should create a strong password.  If a password is provided for cluster
       creation, username must be non-empty.
-    username: The username to use for HTTP basic authentication to the master
+    username: The username to use for HTTP basic authentication to the main
       endpoint. For clusters v1.6.0 and later, you can disable basic
       authentication by providing an empty username.
   """
@@ -2287,33 +2287,33 @@ class MasterAuth(_messages.Message):
   username = _messages.StringField(6)
 
 
-class MasterAuthorizedNetworks(_messages.Message):
-  r"""Configuration options for the master authorized networks feature.
-  Enabled master authorized networks will disallow all external traffic to
-  access Kubernetes master through HTTPS except traffic from the given CIDR
+class MainAuthorizedNetworks(_messages.Message):
+  r"""Configuration options for the main authorized networks feature.
+  Enabled main authorized networks will disallow all external traffic to
+  access Kubernetes main through HTTPS except traffic from the given CIDR
   blocks, Google Compute Engine Public IPs and Google Prod IPs. This message
-  is deprecated, use MasterAuthorizedNetworksConfig instead.
+  is deprecated, use MainAuthorizedNetworksConfig instead.
 
   Fields:
     cidrs: Network CIDRs define up to 10 external networks that could access
-      Kubernetes master through HTTPS.
-    enabled: Whether or not master authorized networks is enabled.
+      Kubernetes main through HTTPS.
+    enabled: Whether or not main authorized networks is enabled.
   """
 
   cidrs = _messages.MessageField('CIDR', 1, repeated=True)
   enabled = _messages.BooleanField(2)
 
 
-class MasterAuthorizedNetworksConfig(_messages.Message):
-  r"""Configuration options for the master authorized networks feature.
-  Enabled master authorized networks will disallow all external traffic to
-  access Kubernetes master through HTTPS except traffic from the given CIDR
+class MainAuthorizedNetworksConfig(_messages.Message):
+  r"""Configuration options for the main authorized networks feature.
+  Enabled main authorized networks will disallow all external traffic to
+  access Kubernetes main through HTTPS except traffic from the given CIDR
   blocks, Google Compute Engine Public IPs and Google Prod IPs.
 
   Fields:
     cidrBlocks: cidr_blocks define up to 10 external networks that could
-      access Kubernetes master through HTTPS.
-    enabled: Whether or not master authorized networks is enabled.
+      access Kubernetes main through HTTPS.
+    enabled: Whether or not main authorized networks is enabled.
   """
 
   cidrBlocks = _messages.MessageField('CidrBlock', 1, repeated=True)
@@ -2323,7 +2323,7 @@ class MasterAuthorizedNetworksConfig(_messages.Message):
 class MetaV1Status(_messages.Message):
   r"""MetaV1Status is a return value for calls that don't return other
   objects.  Should match Status in https://github.com/kubernetes/kubernetes/bl
-  ob/master/staging/src/k8s.io/apimachinery/pkg/apis/meta/v1/generated.proto.
+  ob/main/staging/src/k8s.io/apimachinery/pkg/apis/meta/v1/generated.proto.
 
   Fields:
     code: Suggested HTTP return code for this status, 0 if not set. +optional
@@ -2363,7 +2363,7 @@ class NetworkPolicy(_messages.Message):
 
 class NetworkPolicyConfig(_messages.Message):
   r"""Configuration for NetworkPolicy. This only tracks whether the addon is
-  enabled or not on the Master, it does not track whether network policy is
+  enabled or not on the Main, it does not track whether network policy is
   enabled for the nodes.
 
   Fields:
@@ -2579,7 +2579,7 @@ class NodeManagement(_messages.Message):
 class NodePool(_messages.Message):
   r"""NodePool contains the name and configuration for a cluster's node pool.
   Node pools are a set of nodes (i.e. VM's), with a common configuration and
-  specification, under the control of the cluster master. They may have a set
+  specification, under the control of the cluster main. They may have a set
   of Kubernetes labels applied to them, which may be used to reference them
   during pod scheduling. They may also be resized up or down, to accommodate
   the workload.
@@ -2717,7 +2717,7 @@ class ObjectMeta(_messages.Message):
   r"""ObjectMeta is metadata that all persisted resources must have, which
   includes all objects users must create. Only one field is used from this
   proto in AuditEvent.  Should match ObjectMeta in https://github.com/kubernet
-  es/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/apis/meta/v1/g
+  es/kubernetes/blob/main/staging/src/k8s.io/apimachinery/pkg/apis/meta/v1/g
   enerated.proto
 
   Fields:
@@ -2770,7 +2770,7 @@ class Operation(_messages.Message):
       TYPE_UNSPECIFIED: Not set.
       CREATE_CLUSTER: Cluster create.
       DELETE_CLUSTER: Cluster delete.
-      UPGRADE_MASTER: A master upgrade.
+      UPGRADE_MASTER: A main upgrade.
       UPGRADE_NODES: A node upgrade.
       REPAIR_CLUSTER: Cluster repair.
       UPDATE_CLUSTER: Cluster update.
@@ -2780,7 +2780,7 @@ class Operation(_messages.Message):
       AUTO_REPAIR_NODES: Automatic node pool repair.
       AUTO_UPGRADE_NODES: Automatic node upgrade.
       SET_LABELS: Set labels.
-      SET_MASTER_AUTH: Set/generate master auth materials
+      SET_MASTER_AUTH: Set/generate main auth materials
       SET_NODE_POOL_SIZE: Set node pool size.
       SET_NETWORK_POLICY: Updates network policy for a cluster.
       SET_MAINTENANCE_POLICY: Set the maintenance policy.
@@ -2909,7 +2909,7 @@ class ServerConfig(_messages.Message):
       default.
     defaultImageType: Default image type.
     validImageTypes: List of valid image types.
-    validMasterVersions: List of valid master versions.
+    validMainVersions: List of valid main versions.
     validNodeVersions: List of valid node upgrade target versions.
   """
 
@@ -2917,7 +2917,7 @@ class ServerConfig(_messages.Message):
   defaultClusterVersion = _messages.StringField(2)
   defaultImageType = _messages.StringField(3)
   validImageTypes = _messages.StringField(4, repeated=True)
-  validMasterVersions = _messages.StringField(5, repeated=True)
+  validMainVersions = _messages.StringField(5, repeated=True)
   validNodeVersions = _messages.StringField(6, repeated=True)
 
 
@@ -3125,15 +3125,15 @@ class SetMaintenancePolicyRequest(_messages.Message):
   zone = _messages.StringField(6)
 
 
-class SetMasterAuthRequest(_messages.Message):
-  r"""SetMasterAuthRequest updates the admin password of a cluster.
+class SetMainAuthRequest(_messages.Message):
+  r"""SetMainAuthRequest updates the admin password of a cluster.
 
   Enums:
-    ActionValueValuesEnum: The exact form of action to be taken on the master
+    ActionValueValuesEnum: The exact form of action to be taken on the main
       auth.
 
   Fields:
-    action: The exact form of action to be taken on the master auth.
+    action: The exact form of action to be taken on the main auth.
     clusterId: Deprecated. The name of the cluster to upgrade. This field has
       been deprecated and replaced by the name field.
     name: The name (project, location, cluster) of the cluster to set auth.
@@ -3149,7 +3149,7 @@ class SetMasterAuthRequest(_messages.Message):
   """
 
   class ActionValueValuesEnum(_messages.Enum):
-    r"""The exact form of action to be taken on the master auth.
+    r"""The exact form of action to be taken on the main auth.
 
     Values:
       UNKNOWN: Operation is unknown and will error out.
@@ -3169,7 +3169,7 @@ class SetMasterAuthRequest(_messages.Message):
   clusterId = _messages.StringField(2)
   name = _messages.StringField(3)
   projectId = _messages.StringField(4)
-  update = _messages.MessageField('MasterAuth', 5)
+  update = _messages.MessageField('MainAuth', 5)
   version = _messages.StringField(6)
   zone = _messages.StringField(7)
 
@@ -3325,7 +3325,7 @@ class SetNodePoolSizeRequest(_messages.Message):
 
 class SignedUrls(_messages.Message):
   r"""Signed URLs that allow for writing a file to a private GCS bucket for
-  storing backups of hosted master data.
+  storing backups of hosted main data.
 
   Fields:
     signedUrls: The signed URLs for writing the request files, in the same
@@ -3539,7 +3539,7 @@ class SubjectAccessReviewStatus(_messages.Message):
 
 class Token(_messages.Message):
   r"""A compute-read-write (https://www.googleapis.com/auth/compute) scoped
-  OAuth2 access token, to allow hosted masters to make modifications to a
+  OAuth2 access token, to allow hosted mains to make modifications to a
   user's project.
 
   Fields:
@@ -3604,16 +3604,16 @@ class UpdateClusterRequest(_messages.Message):
   zone = _messages.StringField(7)
 
 
-class UpdateMasterRequest(_messages.Message):
-  r"""UpdateMasterRequest updates the master of the cluster.
+class UpdateMainRequest(_messages.Message):
+  r"""UpdateMainRequest updates the main of the cluster.
 
   Fields:
     clusterId: Deprecated. The name of the cluster to upgrade. This field has
       been deprecated and replaced by the name field.
-    masterMachineType: The name of a Google Compute Engine [machine
+    mainMachineType: The name of a Google Compute Engine [machine
       type](/compute/docs/machine-types) (e.g. `n1-standard-8`) to change the
-      master to.
-    masterVersion: The Kubernetes version to change the master to.  Users may
+      main to.
+    mainVersion: The Kubernetes version to change the main to.  Users may
       specify either explicit versions offered by Kubernetes Engine or version
       aliases, which have the following behavior:  - "latest": picks the
       highest valid Kubernetes version - "1.X": picks the highest valid
@@ -3632,8 +3632,8 @@ class UpdateMasterRequest(_messages.Message):
   """
 
   clusterId = _messages.StringField(1)
-  masterMachineType = _messages.StringField(2)
-  masterVersion = _messages.StringField(3)
+  mainMachineType = _messages.StringField(2)
+  mainVersion = _messages.StringField(3)
   name = _messages.StringField(4)
   projectId = _messages.StringField(5)
   version = _messages.StringField(6)
@@ -3662,7 +3662,7 @@ class UpdateNodePoolRequest(_messages.Message):
       - "latest": picks the highest valid Kubernetes version - "1.X": picks
       the highest valid patch+gke.N patch in the 1.X version - "1.X.Y": picks
       the highest valid gke.N patch in the 1.X.Y version - "1.X.Y-gke.N":
-      picks an explicit Kubernetes version - "-": picks the Kubernetes master
+      picks an explicit Kubernetes version - "-": picks the Kubernetes main
       version
     projectId: Deprecated. The Google Developers Console [project ID or
       project number](https://support.google.com/cloud/answer/6158840). This

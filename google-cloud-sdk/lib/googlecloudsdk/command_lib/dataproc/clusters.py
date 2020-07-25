@@ -67,7 +67,7 @@ def ArgsForClusterRef(parser, beta=False):
       help="""\
       Create a single node cluster.
 
-      A single node cluster has all master and worker components.
+      A single node cluster has all main and worker components.
       It cannot have any separate worker nodes. If this flag is not
       specified, a cluster with separate workers is created.
       """)
@@ -84,8 +84,8 @@ def ArgsForClusterRef(parser, beta=False):
       help='The number of preemptible worker nodes in the cluster.')
 
   parser.add_argument(
-      '--master-machine-type',
-      help='The type of machine to use for the master. Defaults to '
+      '--main-machine-type',
+      help='The type of machine to use for the main. Defaults to '
       'server-specified.')
   parser.add_argument(
       '--worker-machine-type',
@@ -128,9 +128,9 @@ def ArgsForClusterRef(parser, beta=False):
       type=int,
       help='The number of local SSDs to attach to each worker in a cluster.')
   parser.add_argument(
-      '--num-master-local-ssds',
+      '--num-main-local-ssds',
       type=int,
-      help='The number of local SSDs to attach to the master in a cluster.')
+      help='The number of local SSDs to attach to the main in a cluster.')
   parser.add_argument(
       '--initialization-actions',
       type=arg_parsers.ArgList(min_length=1),
@@ -145,17 +145,17 @@ def ArgsForClusterRef(parser, beta=False):
       help=('The maximum duration of each initialization action. See '
             '$ gcloud topic datetimes for information on duration formats.'))
   parser.add_argument(
-      '--num-masters',
+      '--num-mains',
       type=arg_parsers.CustomFunctionValidator(
           lambda n: int(n) in [1, 3],
-          'Number of masters must be 1 (Standard) or 3 (High Availability)',
+          'Number of mains must be 1 (Standard) or 3 (High Availability)',
           parser=arg_parsers.BoundedInt(1, 3)),
       help="""\
-      The number of master nodes in the cluster.
+      The number of main nodes in the cluster.
 
       [format="csv",options="header"]
       |========
-      Number of Masters,Cluster Mode
+      Number of Mains,Cluster Mode
       1,Standard
       3,High Availability
       |========
@@ -245,19 +245,19 @@ Alias,URI
     aliases=compute_helpers.SCOPE_ALIASES_FOR_HELP,
     scope_deprecation_msg=compute_constants.DEPRECATED_SCOPES_MESSAGES))
 
-  master_boot_disk_size = parser.add_mutually_exclusive_group()
+  main_boot_disk_size = parser.add_mutually_exclusive_group()
   worker_boot_disk_size = parser.add_mutually_exclusive_group()
 
   # Deprecated, to be removed at a future date.
-  master_boot_disk_size.add_argument(
-      '--master-boot-disk-size-gb',
+  main_boot_disk_size.add_argument(
+      '--main-boot-disk-size-gb',
       action=actions.DeprecationAction(
-          '--master-boot-disk-size-gb',
-          warn=('The `--master-boot-disk-size-gb` flag is deprecated. '
-                'Use `--master-boot-disk-size` flag with "GB" after value.')),
+          '--main-boot-disk-size-gb',
+          warn=('The `--main-boot-disk-size-gb` flag is deprecated. '
+                'Use `--main-boot-disk-size` flag with "GB" after value.')),
       type=int,
       hidden=True,
-      help='Use `--master-boot-disk-size` flag with "GB" after value.')
+      help='Use `--main-boot-disk-size` flag with "GB" after value.')
   worker_boot_disk_size.add_argument(
       '--worker-boot-disk-size-gb',
       action=actions.DeprecationAction(
@@ -275,8 +275,8 @@ Alias,URI
       ``10GB'' will produce a 10 gigabyte disk. The minimum size a boot disk
       can have is 10 GB. Disk size must be a multiple of 1 GB.
       """
-  master_boot_disk_size.add_argument(
-      '--master-boot-disk-size',
+  main_boot_disk_size.add_argument(
+      '--main-boot-disk-size',
       type=arg_parsers.BinarySize(lower_bound='10GB'),
       help=boot_disk_size_detailed_help)
   worker_boot_disk_size.add_argument(
@@ -307,7 +307,7 @@ Alias,URI
       ``pd-ssd''.
       """
   parser.add_argument(
-      '--master-boot-disk-type', help=boot_disk_type_detailed_help)
+      '--main-boot-disk-type', help=boot_disk_type_detailed_help)
   parser.add_argument(
       '--worker-boot-disk-type', help=boot_disk_type_detailed_help)
   parser.add_argument(
@@ -328,14 +328,14 @@ def GetClusterConfig(args, dataproc, project_id, compute_resources, beta=False):
   Returns:
     cluster_config: Dataproc cluster configuration
   """
-  master_accelerator_type = None
+  main_accelerator_type = None
   worker_accelerator_type = None
-  master_accelerator_count = None
+  main_accelerator_count = None
   worker_accelerator_count = None
   if beta:
-    if args.master_accelerator:
-      master_accelerator_type = args.master_accelerator['type']
-      master_accelerator_count = args.master_accelerator.get('count', 1)
+    if args.main_accelerator:
+      main_accelerator_type = args.main_accelerator['type']
+      main_accelerator_count = args.main_accelerator.get('count', 1)
     if args.worker_accelerator:
       worker_accelerator_type = args.worker_accelerator['type']
       worker_accelerator_count = args.worker_accelerator.get('count', 1)
@@ -371,9 +371,9 @@ def GetClusterConfig(args, dataproc, project_id, compute_resources, beta=False):
   software_config = dataproc.messages.SoftwareConfig(
       imageVersion=args.image_version)
 
-  master_boot_disk_size_gb = args.master_boot_disk_size_gb
-  if args.master_boot_disk_size:
-    master_boot_disk_size_gb = (api_utils.BytesToGb(args.master_boot_disk_size))
+  main_boot_disk_size_gb = args.main_boot_disk_size_gb
+  if args.main_boot_disk_size:
+    main_boot_disk_size_gb = (api_utils.BytesToGb(args.main_boot_disk_size))
 
   worker_boot_disk_size_gb = args.worker_boot_disk_size_gb
   if args.worker_boot_disk_size:
@@ -408,12 +408,12 @@ def GetClusterConfig(args, dataproc, project_id, compute_resources, beta=False):
     gce_cluster_config.metadata = encoding.DictToMessage(
         flat_metadata, dataproc.messages.GceClusterConfig.MetadataValue)
 
-  master_accelerators = []
-  if master_accelerator_type:
-    master_accelerators.append(
+  main_accelerators = []
+  if main_accelerator_type:
+    main_accelerators.append(
         dataproc.messages.AcceleratorConfig(
-            acceleratorTypeUri=master_accelerator_type,
-            acceleratorCount=master_accelerator_count))
+            acceleratorTypeUri=main_accelerator_type,
+            acceleratorCount=main_accelerator_count))
   worker_accelerators = []
   if worker_accelerator_type:
     worker_accelerators.append(
@@ -424,16 +424,16 @@ def GetClusterConfig(args, dataproc, project_id, compute_resources, beta=False):
   cluster_config = dataproc.messages.ClusterConfig(
       configBucket=args.bucket,
       gceClusterConfig=gce_cluster_config,
-      masterConfig=dataproc.messages.InstanceGroupConfig(
-          numInstances=args.num_masters,
+      mainConfig=dataproc.messages.InstanceGroupConfig(
+          numInstances=args.num_mains,
           imageUri=image_ref and image_ref.SelfLink(),
-          machineTypeUri=args.master_machine_type,
-          accelerators=master_accelerators,
+          machineTypeUri=args.main_machine_type,
+          accelerators=main_accelerators,
           diskConfig=GetDiskConfig(
               dataproc,
-              args.master_boot_disk_type if beta else None,
-              master_boot_disk_size_gb,
-              args.num_master_local_ssds
+              args.main_boot_disk_type if beta else None,
+              main_boot_disk_size_gb,
+              args.num_main_local_ssds
           )),
       workerConfig=dataproc.messages.InstanceGroupConfig(
           numInstances=args.num_workers,
@@ -451,7 +451,7 @@ def GetClusterConfig(args, dataproc, project_id, compute_resources, beta=False):
   )
 
   if beta:
-    cluster_config.masterConfig.minCpuPlatform = args.master_min_cpu_platform
+    cluster_config.mainConfig.minCpuPlatform = args.main_min_cpu_platform
     cluster_config.workerConfig.minCpuPlatform = args.worker_min_cpu_platform
 
   if beta:

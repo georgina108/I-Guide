@@ -88,11 +88,11 @@ def AddBaseArgs(parser):
   flags.AddMaintenanceWindowDay(parser)
   flags.AddMaintenanceWindowHour(parser)
   parser.add_argument(
-      '--master-instance-name',
+      '--main-instance-name',
       required=False,
-      help=('Name of the instance which will act as master in the '
+      help=('Name of the instance which will act as main in the '
             'replication setup. The newly created instance will be a read '
-            'replica of the specified master instance.'))
+            'replica of the specified main instance.'))
   flags.AddMemory(parser)
   parser.add_argument(
       '--pricing-plan',
@@ -167,36 +167,36 @@ def RunBaseCreateCommand(args, release_track):
       params={'project': properties.VALUES.core.project.GetOrFail},
       collection='sql.instances')
 
-  # Get the region, tier, and database version from the master if these fields
+  # Get the region, tier, and database version from the main if these fields
   # are not specified.
   # TODO(b/64266672): Remove once API does not require these fields.
-  if args.IsSpecified('master_instance_name'):
-    master_instance_ref = client.resource_parser.Parse(
-        args.master_instance_name,
+  if args.IsSpecified('main_instance_name'):
+    main_instance_ref = client.resource_parser.Parse(
+        args.main_instance_name,
         params={'project': properties.VALUES.core.project.GetOrFail},
         collection='sql.instances')
     try:
-      master_instance_resource = sql_client.instances.Get(
+      main_instance_resource = sql_client.instances.Get(
           sql_messages.SqlInstancesGetRequest(
               project=instance_ref.project,
-              instance=master_instance_ref.instance))
+              instance=main_instance_ref.instance))
     except apitools_exceptions.HttpError as error:
       # TODO(b/64292220): Remove once API gives helpful error message.
-      log.debug('operation : %s', str(master_instance_ref))
+      log.debug('operation : %s', str(main_instance_ref))
       exc = exceptions.HttpException(error)
       if resource_property.Get(exc.payload.content,
                                resource_lex.ParseKey('error.errors[0].reason'),
                                None) == 'notAuthorized':
-        msg = ('You are either not authorized to access the master instance or '
+        msg = ('You are either not authorized to access the main instance or '
                'it does not exist.')
         raise exceptions.HttpException(msg)
       raise
     if not args.IsSpecified('region'):
-      args.region = master_instance_resource.region
+      args.region = main_instance_resource.region
     if not args.IsSpecified('database_version'):
-      args.database_version = master_instance_resource.databaseVersion
-    if not args.IsSpecified('tier') and master_instance_resource.settings:
-      args.tier = master_instance_resource.settings.tier
+      args.database_version = main_instance_resource.databaseVersion
+    if not args.IsSpecified('tier') and main_instance_resource.settings:
+      args.tier = main_instance_resource.settings.tier
 
   instance_resource = (
       command_util.InstancesV1Beta4.ConstructCreateInstanceFromArgs(
@@ -277,16 +277,16 @@ class CreateBeta(base.Command):
     labels_util.AddCreateLabelsFlags(parser)
 
     # Group for creating external primary instances.
-    external_master_group = parser.add_group(
+    external_main_group = parser.add_group(
         required=False,
         help='Options for creating a wrapper for an external data source.')
-    external_master_group.add_argument(
+    external_main_group.add_argument(
         '--source-ip-address',
         required=True,
         type=compute_utils.IPV4Argument,
         help=('Public IP address used to connect to and replicate from '
               'the external data source.'))
-    external_master_group.add_argument(
+    external_main_group.add_argument(
         '--source-port',
         type=arg_parsers.BoundedInt(lower_bound=1, upper_bound=65535),
         # Default MySQL port number.
@@ -300,25 +300,25 @@ class CreateBeta(base.Command):
         help=('Options for creating an internal replica of an external data '
               'source.'))
     internal_replica_group.add_argument(
-        '--master-username',
+        '--main-username',
         required=True,
         help='Name of the replication user on the external data source.')
 
     # TODO(b/78648703): Make group required when mutex required status is fixed.
     # For entering the password of the replication user of an external primary.
-    master_password_group = internal_replica_group.add_group(
+    main_password_group = internal_replica_group.add_group(
         'Password group.', mutex=True)
-    master_password_group.add_argument(
-        '--master-password',
+    main_password_group.add_argument(
+        '--main-password',
         help='Password of the replication user on the external data source.')
-    master_password_group.add_argument(
-        '--prompt-for-master-password',
+    main_password_group.add_argument(
+        '--prompt-for-main-password',
         action='store_true',
         help=('Prompt for the password of the replication user on the '
               'external data source. The password is all typed characters up '
               'to but not including the RETURN or ENTER key.'))
     internal_replica_group.add_argument(
-        '--master-dump-file-path',
+        '--main-dump-file-path',
         required=True,
         type=storage_util.ObjectReference.FromArgument,
         help=('Path to the MySQL dump file in Google Cloud Storage from '
@@ -330,7 +330,7 @@ class CreateBeta(base.Command):
     credential_group = internal_replica_group.add_group(
         'Client and server credentials.', required=False)
     credential_group.add_argument(
-        '--master-ca-certificate-path',
+        '--main-ca-certificate-path',
         required=True,
         help=('Path to a file containing the X.509v3 (RFC5280) PEM encoded '
               'certificate of the CA that signed the external data source\'s '

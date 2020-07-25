@@ -43,14 +43,14 @@ def _NodePoolFromCluster(cluster, node_pool_name):
       node_pool_name))
 
 
-def ClusterUpgradeMessage(name, cluster=None, master=False, node_pool_name=None,
+def ClusterUpgradeMessage(name, cluster=None, main=False, node_pool_name=None,
                           new_version=None, concurrent_node_count=None):
   """Get a message to print during gcloud container clusters upgrade.
 
   Args:
     name: str, the name of the cluster being upgraded.
     cluster: the cluster object.
-    master: bool, if the upgrade applies to the master version.
+    main: bool, if the upgrade applies to the main version.
     node_pool_name: str, the name of the node pool if the upgrade is for a
         specific node pool.
     new_version: str, the name of the new version, if given.
@@ -67,11 +67,11 @@ def ClusterUpgradeMessage(name, cluster=None, master=False, node_pool_name=None,
   if new_version:
     new_version_message = 'version [{}]'.format(new_version)
   else:
-    new_version_message = 'master version'
-  if master:
-    node_message = 'Master'
+    new_version_message = 'main version'
+  if main:
+    node_message = 'Main'
     if cluster:
-      current_version = cluster.currentMasterVersion
+      current_version = cluster.currentMainVersion
   elif node_pool_name:
     node_message = 'All nodes in node pool [{}]'.format(node_pool_name)
     if cluster:
@@ -85,7 +85,7 @@ def ClusterUpgradeMessage(name, cluster=None, master=False, node_pool_name=None,
     else:
       node_message = 'All nodes'
   concurrent_message = ''
-  if not master and concurrent_node_count:
+  if not main and concurrent_node_count:
     concurrent_message = '{} {} will be upgraded at a time. '.format(
         concurrent_node_count,
         text.Pluralize(concurrent_node_count, 'node'))
@@ -185,8 +185,8 @@ def ParseUpdateOptionsBase(args, locations):
       max_nodes=args.max_nodes,
       node_pool=args.node_pool,
       locations=locations,
-      enable_master_authorized_networks=args.enable_master_authorized_networks,
-      master_authorized_networks=args.master_authorized_networks)
+      enable_main_authorized_networks=args.enable_main_authorized_networks,
+      main_authorized_networks=args.main_authorized_networks)
 
 
 def GetUseV1APIProperty():
